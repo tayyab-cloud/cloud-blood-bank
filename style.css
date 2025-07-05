@@ -1,0 +1,41 @@
+/* General Body Style for a cleaner look */
+body {
+    background-color: #f8f9fa; /* Light grey background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Custom Navbar style */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+/* Card styling for a modern feel */
+.card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
+    transition: transform .2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: #343a40;
+    color: white;
+    border-bottom: none;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+}
+
+/* Make table rows interactive */
+.table-hover tbody tr:hover {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+/* Style for the Bootstrap toast notifications */
+.toast-container {
+    z-index: 1090; /* To make sure it appears on top */
+}

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Charset ki typo theek kar di gayi hai -->
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Cloud Blood Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-danger">
+        <div class="container">
+            <!-- Note: Image ka naam 'logo.png' rakha gaya hai consistency ke liye. Apni file ka naam bhi yahi rakhein. -->
+            <a class="navbar-brand" href="#">
+                <img src="logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
+                Professional Cloud Blood Bank
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+<div class="container mt-4">
+
+<!-- PASTE THIS ENTIRE BLOCK. IT CONTAINS THE CORRECT LAYOUT FOR ALL TABS. -->
+
+<!-- Tab Navigation Menu -->
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard-tab-pane" type="button" role="tab" aria-controls="dashboard-tab-pane" aria-selected="true">
+            <i class="bi bi-bar-chart-line-fill me-2"></i>Dashboard
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="donors-tab" data-bs-toggle="tab" data-bs-target="#donors-tab-pane" type="button" role="tab" aria-controls="donors-tab-pane" aria-selected="false">
+            <i class="bi bi-droplet-fill me-2"></i>Blood Repository
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="patients-tab" data-bs-toggle="tab" data-bs-target="#patients-tab-pane" type="button" role="tab" aria-controls="patients-tab-pane" aria-selected="false">
+            <i class="bi bi-person-fill me-2"></i>Patient Management
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link text-warning" id="maintenance-tab" data-bs-toggle="tab" data-bs-target="#maintenance-tab-pane" type="button" role="tab" aria-controls="maintenance-tab-pane" aria-selected="false">
+            <i class="bi bi-gear-fill me-2"></i>Maintenance
+        </button>
+    </li>
+</ul>
+
+<!-- Tab Content Panes -->
+<div class="tab-content" id="myTabContent">
+
+    <!-- Dashboard Pane -->
+    <div class="tab-pane fade show active" id="dashboard-tab-pane" role="tabpanel" aria-labelledby="dashboard-tab" tabindex="0">
+        <div class="row g-4 mt-1">
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-center text-bg-primary"><div class="card-body"><h6 class="card-title text-uppercase">Available Units</h6><h2 class="display-5" id="kpi-available-units">...</h2></div></div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-center text-bg-warning"><div class="card-body"><h6 class="card-title text-uppercase">Patients Waiting</h6><h2 class="display-5" id="kpi-patients-waiting">...</h2></div></div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-center text-bg-success"><div class="card-body"><h6 class="card-title text-uppercase">Most Abundant</h6><h2 class="display-5" id="kpi-most-abundant">...</h2></div></div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-center text-bg-danger"><div class="card-body"><h6 class="card-title text-uppercase">Most Needed</h6><h2 class="display-5" id="kpi-most-needed">...</h2></div></div>
+            </div>
+        </div>
+        <div class="row g-4 mt-3">
+            <div class="col-lg-6">
+                <div class="card"><div class="card-header"><h5 class="mb-0">Blood Supply (Available Units)</h5></div><div class="card-body"><canvas id="supplyChart"></canvas></div></div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card"><div class="card-header"><h5 class="mb-0">Patient Demand (Waiting List)</h5></div><div class="card-body"><canvas id="demandChart"></canvas></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blood Repository Pane (THIS SECTION NOW HAS THE CORRECT LAYOUT) -->
+    <div class="tab-pane fade" id="donors-tab-pane" role="tabpanel" aria-labelledby="donors-tab" tabindex="0">
+        <div class="row g-4 mt-1">
+            <!-- Left Column for Form -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header"><h5 class="mb-0">Add New Blood Unit</h5></div>
+                    <div class="card-body">
+                        <form id="addDonorForm" class="needs-validation" novalidate>
+                            <div class="mb-3"><label for="name" class="form-label">Full Name</label><input type="text" id="name" class="form-control" required><div class="invalid-feedback">Please enter the donor's full name.</div></div>
+                            <div class="mb-3"><label for="bloodType" class="form-label">Blood Type</label><select id="bloodType" class="form-select" required><option selected disabled value="">Choose...</option><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="AB+">AB+</option><option value="AB-">AB-</option><option value="O+">O+</option><option value="O-">O-</option></select><div class="invalid-feedback">Please select a valid blood type.</div></div>
+                            <div class="mb-3"><label for="city" class="form-label">City</label><input type="text" id="city" class="form-control" required><div class="invalid-feedback">Please enter a city.</div></div>
+                            <div class="mb-3"><label for="phone" class="form-label">Phone Number</label><input type="tel" id="phone" class="form-control" required><div class="invalid-feedback">Please enter a valid phone number.</div></div>
+                            <div class="mb-3"><label for="storageDate" class="form-label">Storage Date</label><input type="date" id="storageDate" class="form-control" required><div class="invalid-feedback">Please select a storage date.</div></div>
+                            <div class="mb-3"><label for="storageArea" class="form-label">Storage Area</label><select id="storageArea" class="form-select" required><option selected disabled value="">Choose...</option><option value="Refrigerator-1 / Shelf-A">Refrigerator-1 / Shelf-A</option><option value="Refrigerator-1 / Shelf-B">Refrigerator-1 / Shelf-B</option><option value="Refrigerator-2 / Shelf-A">Refrigerator-2 / Shelf-A</option><option value="Refrigerator-2 / Shelf-B">Refrigerator-2 / Shelf-B</option><option value="Freezer-1 / Rack-A">Freezer-1 / Rack-A</option><option value="Freezer-1 / Rack-B">Freezer-1 / Rack-B</option><option value="Quarantine / Shelf-Q">Quarantine / Shelf-Q</option><option value="Mobile Unit / Cooler-1">Mobile Unit / Cooler-1</option></select><div class="invalid-feedback">Please select a storage area.</div></div>
+                            <button type="submit" id="submitButton" class="btn btn-danger w-100"><span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span> Add Donor</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Column for Table -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header"><h5 class="mb-0">Blood Donor Repository</h5></div>
+                    <div class="card-body">
+                        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search by name, blood type, or city...">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr><th>Name</th><th>Blood Type</th><th>City / Storage</th><th>Status</th><th>Added On</th><th>Actions</th></tr>
+                                </thead>
+                                <tbody id="donorTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Management Pane (THIS SECTION NOW HAS THE CORRECT LAYOUT) -->
+    <div class="tab-pane fade" id="patients-tab-pane" role="tabpanel" aria-labelledby="patients-tab" tabindex="0">
+        <div class="row g-4 mt-1">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header"><h5 class="mb-0">Add Patient to Waitlist</h5></div>
+                    <div class="card-body">
+                        <form id="addPatientForm" class="needs-validation" novalidate>
+                            <div class="mb-3"><label for="patientName" class="form-label">Patient Full Name</label><input type="text" id="patientName" class="form-control" required><div class="invalid-feedback">Please enter name.</div></div>
+                            <div class="mb-3"><label for="requiredBloodType" class="form-label">Required Blood Type</label><select id="requiredBloodType" class="form-select" required><option selected disabled value="">Choose...</option><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="AB+">AB+</option><option value="AB-">AB-</option><option value="O+">O+</option><option value="O-">O-</option></select><div class="invalid-feedback">Please select blood type.</div></div>
+                            <div class="mb-3"><label for="hospitalName" class="form-label">Hospital Name</label><input type="text" id="hospitalName" class="form-control" required><div class="invalid-feedback">Please enter hospital.</div></div>
+                            <div class="mb-3"><label for="requiredDate" class="form-label">Required By Date</label><input type="date" id="requiredDate" class="form-control" required><div class="invalid-feedback">Please select a date.</div></div>
+                            <button type="submit" id="submitPatientButton" class="btn btn-primary w-100"><span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span> Add Patient</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header"><h5 class="mb-0">Patient Waitlist</h5></div>
+                    <div class="card-body">
+                        <input type="text" id="patientSearchInput" class="form-control mb-3" placeholder="Search by patient name or hospital...">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr><th>Patient Name</th><th>Hospital</th><th>Required Blood</th><th>Status</th><th>Actions</th></tr>
+                                </thead>
+                                <tbody id="patientTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Maintenance Pane (THIS SECTION NOW HAS THE CORRECT LAYOUT) -->
+    <!-- FIND THE OLD MAINTENANCE TAB PANE AND REPLACE IT WITH THIS ENTIRE BLOCK -->
+
+<!-- === MAINTENANCE TAB PANE (REDESIGNED) === -->
+<div class="tab-pane fade" id="maintenance-tab-pane" role="tabpanel" aria-labelledby="maintenance-tab" tabindex="0">
+    <div class="row g-4 mt-1 justify-content-center">
+        <div class="col-lg-8">
+            <!-- Changed to border-danger -->
+            <div class="card border-danger">
+                <!-- Changed to bg-danger and text-white for high contrast -->
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="bi bi-exclamation-triangle-fill me-2"></i>Data Purge Utility</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Corrected the bolding with <strong> tags -->
+                    <p class="text-muted">
+                        This tool will permanently delete <strong>completed</strong> patient records and their associated <strong>used</strong> blood unit records from the database. This action cannot be undone. It is useful for managing database size and cost.
+                    </p>
+                    
+                    <div class="mb-3">
+                        <label for="purgeDate" class="form-label"><strong>Delete all records completed before this date:</strong></label>
+                        <input type="date" id="purgeDate" class="form-control">
+                    </div>
+
+                    <!-- Changed button to btn-danger to match the theme -->
+                    <button id="preparePurgeBtn" class="btn btn-danger w-100">Preview Records for Deletion</button>
+
+                    <div id="purgePreviewArea" class="mt-4 alert alert-info d-none">
+                        <!-- Preview message will be injected here by JavaScript -->
+                    </div>
+
+                    <!-- This button is already red, which is perfect -->
+                    <button id="confirmPurgeBtn" class="btn btn-danger w-100 mt-2 d-none">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        Yes, I understand. Purge These Records
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+
+<!-- Add this new Assign Patient Modal at the end of the body, with the other modals -->
+<!-- This modal is now smarter, with a dropdown list -->
+<div class="modal fade" id="assignPatientModal" tabindex="-1" aria-labelledby="assignPatientModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignPatientModalLabel">Assign Blood Unit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="assign-donor-id">
+                <div class="mb-3">
+                    <label for="assign-patient-select" class="form-label">Select a Matching Patient (Status: WAITING)</label>
+                    <select id="assign-patient-select" class="form-select" required>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                    <div class="invalid-feedback">Please select a patient.</div>
+                </div>
+                 <div class="mb-3">
+                    <label for="assign-transfusionDate" class="form-label">Date of Transfusion</label>
+                    <input type="date" id="assign-transfusionDate" class="form-control" required>
+                    <div class="invalid-feedback">Please select the date of transfusion.</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="confirmAssignBtn" class="btn btn-danger">Confirm & Assign</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <!-- Edit Donor Modal (Pop-up Form) -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">Edit Donor Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="editDonorForm">
+              <input type="hidden" id="edit-id">
+              <div class="mb-3"><label for="edit-name" class="form-label">Full Name</label><input type="text" id="edit-name" class="form-control" required></div>
+              <div class="mb-3"><label for="edit-bloodType" class="form-label">Blood Type</label><select id="edit-bloodType" class="form-select" required><option selected disabled value="">Choose...</option><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="AB+">AB+</option><option value="AB-">AB-</option><option value="O+">O+</option><option value="O-">O-</option></select></div>
+              <div class="mb-3"><label for="edit-city" class="form-label">City</label><input type="text" id="edit-city" class="form-control" required></div>
+              <div class="mb-3"><label for="edit-phone" class="form-label">Phone</label><input type="tel" id="edit-phone" class="form-control" required></div>
+              <div class="mb-3"><label for="edit-storageDate" class="form-label">Storage Date</label><input type="date" id="edit-storageDate" class="form-control" required></div>
+                            <!-- ADD THIS NEW CODE BLOCK -->
+              <div class="mb-3">
+                <label for="edit-storageArea" class="form-label">Storage Area</label>
+                <select id="edit-storageArea" class="form-select" required>
+                    <option value="Refrigerator-1 / Shelf-A">Refrigerator-1 / Shelf-A</option>
+                    <option value="Refrigerator-1 / Shelf-B">Refrigerator-1 / Shelf-B</option>
+                    <option value="Refrigerator-2 / Shelf-A">Refrigerator-2 / Shelf-A</option>
+                    <option value="Refrigerator-2 / Shelf-B">Refrigerator-2 / Shelf-B</option>
+                    <option value="Freezer-1 / Rack-A">Freezer-1 / Rack-A</option>
+                    <option value="Freezer-1 / Rack-B">Freezer-1 / Rack-B</option>
+                    <option value="Quarantine / Shelf-Q">Quarantine / Shelf-Q</option>
+                    <option value="Mobile Unit / Cooler-1">Mobile Unit / Cooler-1</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" id="saveChangesBtn" class="btn btn-danger">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- === Delete Confirmation Modal === -->
+        <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="deleteModalBody">
+                <!-- Message will be inserted here by JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <!-- Yeh button asal delete ka kaam karega -->
+                <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Yes, Delete</button>
+            </div>
+            </div>
+        </div>
+        </div>
+        
+
+       
+
+    <!-- === TOAST CONTAINER (Yahan code add kiya gaya hai) === -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto" id="toastTitle">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toastBody"></div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
